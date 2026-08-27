@@ -1,0 +1,68 @@
+table Inventory
+	lineageTag: cba1e91a-7593-4512-a4d3-ea69643ac99f
+
+	measure 'On Hand Units' = VAR d = CALCULATE(MAX(Inventory[Date])) RETURN CALCULATE(SUM(Inventory[OnHandUnits]), Inventory[Date] = d)
+		formatString: #,0
+		displayFolder: Inventory
+		lineageTag: 68b88c8c-03bd-47dd-b859-7e56343946b5
+
+	measure 'Safety Stock Units' = VAR d = CALCULATE(MAX(Inventory[Date])) RETURN CALCULATE(SUM(Inventory[SafetyStockUnits]), Inventory[Date] = d)
+		formatString: #,0
+		displayFolder: Inventory
+		lineageTag: 78235b4d-864f-46e9-9bcb-07e592a57ea6
+
+	measure 'Days of Supply' = VAR avgMonthly = AVERAGEX(VALUES('Date'[YearMonth]), [Consensus Units]) RETURN DIVIDE([On Hand Units], DIVIDE(avgMonthly, 30.4))
+		formatString: 0
+		displayFolder: Inventory
+		lineageTag: 538a97ef-36a1-4ac2-8e61-dc15cc27b01c
+
+	measure 'Projected Inventory Units' = VAR lastActual = CALCULATE(MAX(Inventory[Date]), REMOVEFILTERS('Date')) VAR maxD = MAX('Date'[Date]) RETURN IF(maxD <= lastActual, [On Hand Units], CALCULATE([On Hand Units], REMOVEFILTERS('Date'), 'Date'[Date] = lastActual) + CALCULATE([Production Plan Units] - [Consensus Units], REMOVEFILTERS('Date'), 'Date'[Date] > lastActual, 'Date'[Date] <= maxD))
+		formatString: #,0
+		displayFolder: Inventory
+		lineageTag: b825f581-661f-4cbd-9cd5-ddc4905341db
+
+	measure 'Projected Days of Supply' = VAR avgMonthly = AVERAGEX(VALUES('Date'[YearMonth]), [Consensus Units]) RETURN DIVIDE([Projected Inventory Units], DIVIDE(avgMonthly, 30.4))
+		formatString: 0
+		displayFolder: Inventory
+		lineageTag: 84012b3c-47ef-49a4-a2b8-bc4cc492778d
+
+	measure 'Inventory Value' = SUMX(SUMMARIZE(Product, Product[SKU], Product[StdCost]), [On Hand Units] * Product[StdCost])
+		formatString: $#,0
+		displayFolder: Inventory
+		lineageTag: 43f187c5-12ea-45be-807b-bacf9aa6f9ad
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: f9ac3522-c699-4020-866b-328bec4ac839
+		summarizeBy: none
+		sourceColumn: Date
+
+	column SKU
+		dataType: string
+		lineageTag: d4f6be73-6f11-43de-a819-6adb12781b5e
+		summarizeBy: none
+		sourceColumn: SKU
+
+	column DCID
+		dataType: string
+		lineageTag: 873362fb-7f3c-4f70-8691-38c746cf2271
+		summarizeBy: none
+		sourceColumn: DCID
+
+	column OnHandUnits
+		dataType: int64
+		lineageTag: e4ab32ce-2de4-4676-ad69-351a9d321058
+		summarizeBy: sum
+		sourceColumn: OnHandUnits
+
+	column SafetyStockUnits
+		dataType: int64
+		lineageTag: 171a692d-4358-433e-bf81-e9d5c57c9dd6
+		summarizeBy: sum
+		sourceColumn: SafetyStockUnits
+
+	partition Inventory = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\Users\deept\Claude\Projects\SOP-Consensus\data\fact_inventory.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"SKU", type text}, {"DCID", type text}, {"OnHandUnits", Int64.Type}, {"SafetyStockUnits", Int64.Type}}) in Typed
+

@@ -1,0 +1,19 @@
+table Channel
+	lineageTag: 865e103e-b78f-468f-b00b-6265610257da
+
+	column ChannelID
+		dataType: string
+		lineageTag: db487651-931e-42ad-870c-bd76f5ee87a7
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+	column ChannelName
+		dataType: string
+		lineageTag: 1855f9a9-5535-4696-a091-260e01ea7ac5
+		summarizeBy: none
+		sourceColumn: ChannelName
+
+	partition Channel = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\Users\deept\Claude\Projects\SOP-Consensus\data\dim_channel.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Typed = Table.TransformColumnTypes(Headers, {{"ChannelID", type text}, {"ChannelName", type text}}) in Typed
+

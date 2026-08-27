@@ -1,0 +1,76 @@
+table AOP
+	lineageTag: 032f2c90-f277-430a-b485-1da379bb6aaf
+
+	measure 'Consensus Revenue' = SUMX(Demand, Demand[ConsensusForecastUnits] * RELATED(Product[ListPrice]))
+		formatString: $#,0
+		displayFolder: Financial
+		lineageTag: 21c11e96-80ae-423c-a7b6-a07ca2418939
+
+	measure 'Actual Revenue' = SUMX(Demand, Demand[ActualUnits] * RELATED(Product[ListPrice]))
+		formatString: $#,0
+		displayFolder: Financial
+		lineageTag: 8450a916-ddc7-415d-a585-8a00b9293fe4
+
+	measure 'Consensus COGS' = SUMX(Demand, Demand[ConsensusForecastUnits] * RELATED(Product[StdCost]))
+		formatString: $#,0
+		displayFolder: Financial
+		lineageTag: a38cf9e3-6b8a-4f72-9c9c-e7444a0cef10
+
+	measure 'Gross Margin' = [Consensus Revenue] - [Consensus COGS]
+		formatString: $#,0
+		displayFolder: Financial
+		lineageTag: c1ed3c45-7d2a-4745-9750-4c10a24e1f3a
+
+	measure 'Gross Margin %' = DIVIDE([Gross Margin], [Consensus Revenue])
+		formatString: 0.0%
+		displayFolder: Financial
+		lineageTag: 42e90186-8f92-4d57-8f7b-b12de8bb6637
+
+	measure 'AOP Revenue' = SUM(AOP[AOPRevenue])
+		formatString: $#,0
+		displayFolder: Financial
+		lineageTag: c04cdb9d-be17-4786-b49d-f3941e4a1334
+
+	measure 'Gap to AOP' = [Consensus Revenue] - [AOP Revenue]
+		formatString: $#,0;($#,0)
+		displayFolder: Financial
+		lineageTag: 59fa26ab-ef19-40b1-b7c0-e901f641774d
+
+	measure 'Gap to AOP %' = DIVIDE([Gap to AOP], [AOP Revenue])
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Financial
+		lineageTag: 9bcbd520-5936-40da-8bdf-514bd505d9d2
+
+	measure 'Constrained Units' = SUMX(VALUES('Date'[YearMonth]), MIN([Consensus Units], [Capacity Units]))
+		formatString: #,0
+		displayFolder: Financial
+		lineageTag: 1b15abc4-4946-495c-b5fb-4bd1ab144198
+
+	measure 'Revenue at Risk' = SUMX(VALUES('Date'[YearMonth]), VAR c = [Consensus Units] VAR k = [Capacity Units] VAR short = MAX(c - k, 0) RETURN short * DIVIDE([Consensus Revenue], c))
+		formatString: $#,0
+		displayFolder: Financial
+		lineageTag: 51b98ff2-7ef1-4555-9607-e31315a82cee
+
+	measure 'Margin at Risk' = SUMX(VALUES('Date'[YearMonth]), VAR c = [Consensus Units] VAR k = [Capacity Units] VAR short = MAX(c - k, 0) RETURN short * DIVIDE([Gross Margin], c))
+		formatString: $#,0
+		displayFolder: Financial
+		lineageTag: a764cc83-17b5-4f1b-a2a5-dcee91633efb
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: e72e4621-0aa7-4d61-a341-d6e384290399
+		summarizeBy: none
+		sourceColumn: Date
+
+	column AOPRevenue
+		dataType: decimal
+		formatString: $#,0
+		lineageTag: 6a359c15-8334-4366-8d5e-f9077411fddf
+		summarizeBy: sum
+		sourceColumn: AOPRevenue
+
+	partition AOP = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\Users\deept\Claude\Projects\SOP-Consensus\data\fact_aop.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"AOPRevenue", Currency.Type}}) in Typed
+

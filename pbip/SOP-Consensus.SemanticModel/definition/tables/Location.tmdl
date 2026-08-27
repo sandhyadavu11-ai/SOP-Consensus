@@ -1,0 +1,25 @@
+table Location
+	lineageTag: 2a03712e-4ae6-4f5f-9c60-3c488c913115
+
+	column LocationID
+		dataType: string
+		lineageTag: 2fa76caf-f529-4c85-acbd-9629be4c70c7
+		summarizeBy: none
+		sourceColumn: LocationID
+
+	column LocationName
+		dataType: string
+		lineageTag: 931c5522-e0b7-4b9c-83ac-f764649a7f88
+		summarizeBy: none
+		sourceColumn: LocationName
+
+	column LocationType
+		dataType: string
+		lineageTag: f3957517-f256-48f5-bcd5-b15e002a2288
+		summarizeBy: none
+		sourceColumn: LocationType
+
+	partition Location = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\Users\deept\Claude\Projects\SOP-Consensus\data\dim_location.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Typed = Table.TransformColumnTypes(Headers, {{"LocationID", type text}, {"LocationName", type text}, {"LocationType", type text}}) in Typed
+

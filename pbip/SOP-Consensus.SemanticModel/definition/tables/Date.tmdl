@@ -1,0 +1,53 @@
+table Date
+	lineageTag: ae25b6a1-3d49-4b1a-9577-08da21c211d7
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		lineageTag: 7147bab4-7cac-4a65-840d-cf848123a599
+		summarizeBy: none
+		sourceColumn: Date
+
+	column Year
+		dataType: int64
+		lineageTag: 6da37f23-97e8-46bb-86c0-097f5b145ce4
+		summarizeBy: none
+		sourceColumn: Year
+
+	column Month
+		dataType: int64
+		lineageTag: 39a889f7-5580-4c05-8021-5f6972b06ffe
+		summarizeBy: none
+		sourceColumn: Month
+
+	column MonthName
+		dataType: string
+		lineageTag: 562d917e-bfb6-40e3-a0e9-8fae043d9fa2
+		summarizeBy: none
+		sourceColumn: MonthName
+		sortByColumn: Month
+
+	column Quarter
+		dataType: string
+		lineageTag: b31c03e8-a596-4690-9ce9-bd0e2c09e0a6
+		summarizeBy: none
+		sourceColumn: Quarter
+
+	column YearMonth
+		dataType: string
+		lineageTag: fc12085d-20b3-4b7c-ab0f-345a6c27e133
+		summarizeBy: none
+		sourceColumn: YearMonth
+
+	column IsActual
+		dataType: int64
+		lineageTag: ade62c9b-2e94-4aa2-8e2c-162d2ca7154f
+		summarizeBy: none
+		sourceColumn: IsActual
+
+	partition Date = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\Users\deept\Claude\Projects\SOP-Consensus\data\dim_date.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Typed = Table.TransformColumnTypes(Headers, {{"Date", type date}, {"Year", Int64.Type}, {"Month", Int64.Type}, {"MonthName", type text}, {"Quarter", type text}, {"YearMonth", type text}, {"IsActual", Int64.Type}}) in Typed
+

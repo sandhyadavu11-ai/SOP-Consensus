@@ -1,0 +1,63 @@
+table Supply
+	lineageTag: f997d649-a506-43a6-8ef4-b36839f9e004
+
+	measure 'Capacity Units' = SUM(Supply[CapacityUnits])
+		formatString: #,0
+		displayFolder: Supply
+		lineageTag: 1aaa3a8f-0cf3-463d-8162-814186330bc0
+
+	measure 'Production Plan Units' = SUM(Supply[ProductionPlanUnits])
+		formatString: #,0
+		displayFolder: Supply
+		lineageTag: 8405d961-e680-4a99-bfb6-8fd015e15afb
+
+	measure 'Actual Production Units' = SUM(Supply[ActualProductionUnits])
+		formatString: #,0
+		displayFolder: Supply
+		lineageTag: d8b13438-4fa6-4c38-8db3-fe0582f208d3
+
+	measure 'Capacity Utilization %' = DIVIDE([Consensus Units], [Capacity Units])
+		formatString: 0.0%
+		displayFolder: Supply
+		lineageTag: 3ba99753-61f4-4c2f-beff-6166b89811b0
+
+	measure 'Capacity Gap Units' = [Consensus Units] - [Capacity Units]
+		formatString: #,0;(#,0)
+		displayFolder: Supply
+		lineageTag: 23463b4b-4bd1-401a-8d48-74bdc74474ed
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: c5ece204-fd2c-4260-87c9-59a863e05aa3
+		summarizeBy: none
+		sourceColumn: Date
+
+	column PlantID
+		dataType: string
+		lineageTag: 92f318a6-ef93-4bc9-af1a-dba3d46f5138
+		summarizeBy: none
+		sourceColumn: PlantID
+
+	column CapacityUnits
+		dataType: int64
+		lineageTag: 55b58a65-96c1-4e5b-b8f3-d9466746c2db
+		summarizeBy: sum
+		sourceColumn: CapacityUnits
+
+	column ProductionPlanUnits
+		dataType: int64
+		lineageTag: f7cb818a-0c30-456b-8577-09c70db7fb11
+		summarizeBy: sum
+		sourceColumn: ProductionPlanUnits
+
+	column ActualProductionUnits
+		dataType: int64
+		lineageTag: ee85fd9c-4dee-415c-aff0-a8531e387014
+		summarizeBy: sum
+		sourceColumn: ActualProductionUnits
+
+	partition Supply = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\Users\deept\Claude\Projects\SOP-Consensus\data\fact_supply.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Cleaned = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, {"ActualProductionUnits"}), Typed = Table.TransformColumnTypes(Cleaned, {{"Date", type date}, {"PlantID", type text}, {"CapacityUnits", Int64.Type}, {"ProductionPlanUnits", Int64.Type}, {"ActualProductionUnits", Int64.Type}}) in Typed
+

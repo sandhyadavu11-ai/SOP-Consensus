@@ -1,0 +1,126 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 191.92346844776023,
+            "y": 741.27911755698688
+          },
+          "nodeIndex": "AOP",
+          "nodeLineageTag": "032f2c90-f277-430a-b485-1da379bb6aaf",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 968.68241563391621,
+            "y": 778.57828091828014
+          },
+          "nodeIndex": "Channel",
+          "nodeLineageTag": "865e103e-b78f-468f-b00b-6265610257da",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 389.09954913020562,
+            "y": 436.54277252016954
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "ae25b6a1-3d49-4b1a-9577-08da21c211d7",
+          "size": {
+            "height": 248,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 678.75165432988717,
+            "y": 521.44747374732606
+          },
+          "nodeIndex": "Demand",
+          "nodeLineageTag": "22174739-6ee9-4089-866b-7ce629dceb92",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 395.55526452744778,
+            "y": 53.820006339163
+          },
+          "nodeIndex": "Inventory",
+          "nodeLineageTag": "cba1e91a-7593-4512-a4d3-ea69643ac99f",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 108.69600742984696,
+            "y": -50
+          },
+          "nodeIndex": "Location",
+          "nodeLineageTag": "2a03712e-4ae6-4f5f-9c60-3c488c913115",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 684.7183777961867,
+            "y": 240.93546041574473
+          },
+          "nodeIndex": "Product",
+          "nodeLineageTag": "9c3aa3b7-198b-4025-b1e1-38dc639d3d16",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50.000000000000014,
+            "y": 157.38802946505302
+          },
+          "nodeIndex": "Supply",
+          "nodeLineageTag": "f997d649-a506-43a6-8ef4-b36839f9e004",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

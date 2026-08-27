@@ -1,0 +1,80 @@
+table Demand
+	lineageTag: 22174739-6ee9-4089-866b-7ce629dceb92
+
+	measure 'Consensus Units' = SUM(Demand[ConsensusForecastUnits])
+		formatString: #,0
+		displayFolder: Demand
+		lineageTag: 0eac004c-1cc0-42b8-8e80-c2413a4b628f
+
+	measure 'Stat Forecast Units' = SUM(Demand[StatForecastUnits])
+		formatString: #,0
+		displayFolder: Demand
+		lineageTag: 9094dcc6-2140-4ca1-adcd-113767c5cbd1
+
+	measure 'Sales Forecast Units' = SUM(Demand[SalesForecastUnits])
+		formatString: #,0
+		displayFolder: Demand
+		lineageTag: 6674528d-6b90-461c-abcc-a657357b790c
+
+	measure 'Actual Units' = SUM(Demand[ActualUnits])
+		formatString: #,0
+		displayFolder: Demand
+		lineageTag: c9dd8d43-862a-4968-838e-c932e86306f0
+
+	measure 'Forecast Bias %' = VAR s = CALCULATE([Sales Forecast Units], KEEPFILTERS('Date'[IsActual] = 1)) VAR a = CALCULATE([Actual Units], KEEPFILTERS('Date'[IsActual] = 1)) RETURN DIVIDE(s - a, a)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Demand
+		lineageTag: a4357464-4995-4964-a142-f882c6e6a364
+
+	measure 'Forecast Accuracy %' = VAR grain = CALCULATETABLE(SUMMARIZE(Demand, 'Date'[Date], Product[SKU]), KEEPFILTERS('Date'[IsActual] = 1)) VAR abserr = SUMX(grain, ABS(CALCULATE(SUM(Demand[ConsensusForecastUnits])) - CALCULATE(SUM(Demand[ActualUnits])))) VAR act = CALCULATE([Actual Units], KEEPFILTERS('Date'[IsActual] = 1)) RETURN 1 - DIVIDE(abserr, act)
+		formatString: 0.0%
+		displayFolder: Demand
+		lineageTag: 75c128c5-687d-4da5-a767-ddab07bfcb83
+
+	column Date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 525e8caa-db13-4fa0-953b-cdab27746330
+		summarizeBy: none
+		sourceColumn: Date
+
+	column SKU
+		dataType: string
+		lineageTag: 4b96e978-ba1c-44ab-9c2c-b2cc189ceb2c
+		summarizeBy: none
+		sourceColumn: SKU
+
+	column ChannelID
+		dataType: string
+		lineageTag: a9d56b50-066a-41ed-82e8-61d01acd05d6
+		summarizeBy: none
+		sourceColumn: ChannelID
+
+	column StatForecastUnits
+		dataType: int64
+		lineageTag: cc866dce-4fc9-4c05-8513-8754a17e56aa
+		summarizeBy: sum
+		sourceColumn: StatForecastUnits
+
+	column SalesForecastUnits
+		dataType: int64
+		lineageTag: 4295b07d-506b-4288-a6fa-d5e64a7250ff
+		summarizeBy: sum
+		sourceColumn: SalesForecastUnits
+
+	column ConsensusForecastUnits
+		dataType: int64
+		lineageTag: e82f3bfb-fe31-4afb-8f65-79f173125c80
+		summarizeBy: sum
+		sourceColumn: ConsensusForecastUnits
+
+	column ActualUnits
+		dataType: int64
+		lineageTag: 3897bc05-6cd6-4bce-ae20-5dccc8c476ba
+		summarizeBy: sum
+		sourceColumn: ActualUnits
+
+	partition Demand = m
+		mode: import
+		source = let Source = Csv.Document(File.Contents("C:\Users\deept\Claude\Projects\SOP-Consensus\data\fact_demand.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]), Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]), Cleaned = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, {"ActualUnits"}), Typed = Table.TransformColumnTypes(Cleaned, {{"Date", type date}, {"SKU", type text}, {"ChannelID", type text}, {"StatForecastUnits", Int64.Type}, {"SalesForecastUnits", Int64.Type}, {"ConsensusForecastUnits", Int64.Type}, {"ActualUnits", Int64.Type}}) in Typed
+

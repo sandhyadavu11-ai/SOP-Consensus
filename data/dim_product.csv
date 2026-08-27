@@ -1,0 +1,9 @@
+SKU,ProductName,PackSize,MarginTier,ListPrice,StdCost
+V-CIT-12,Citrus Boost 12pk,12,High,28.00,13.50
+V-BER-12,Berry Focus 12pk,12,High,27.50,13.80
+V-TRO-12,Tropical Calm 12pk,12,Mid,24.00,13.90
+V-CIT-24,Citrus Boost 24pk,24,Mid,44.00,26.50
+V-BER-24,Berry Focus 24pk,24,Mid,43.00,26.80
+V-GIN-12,Ginger Revive 12pk,12,Mid,24.50,14.20
+V-MEL-24,Melon Hydrate 24pk,24,Low,33.00,27.20
+V-COC-24,Coco Splash 24pk,24,Low,34.00,27.60

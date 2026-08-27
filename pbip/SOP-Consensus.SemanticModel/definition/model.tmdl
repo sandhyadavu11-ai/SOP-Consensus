@@ -1,0 +1,27 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["Date","Product","Location","Channel","Demand","Supply","Inventory","AOP"]
+
+annotation PBIDesktopVersion = 2.142.1277.0 (25.04)+014fde450f93691fc9537f0758d73d1c5df153ef
+
+annotation PBI_ProTooling = ["MCP-PBIModeling","DevMode"]
+
+ref table AOP
+ref table Channel
+ref table Date
+ref table Demand
+ref table Inventory
+ref table Location
+ref table Product
+ref table Supply
+
+ref cultureInfo en-US
+

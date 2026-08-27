@@ -1,0 +1,36 @@
+relationship Demand_Date
+	fromColumn: Demand.Date
+	toColumn: Date.Date
+
+relationship Demand_Product
+	fromColumn: Demand.SKU
+	toColumn: Product.SKU
+
+relationship Demand_Channel
+	fromColumn: Demand.ChannelID
+	toColumn: Channel.ChannelID
+
+relationship Supply_Date
+	fromColumn: Supply.Date
+	toColumn: Date.Date
+
+relationship Supply_Location
+	fromColumn: Supply.PlantID
+	toColumn: Location.LocationID
+
+relationship Inventory_Date
+	fromColumn: Inventory.Date
+	toColumn: Date.Date
+
+relationship Inventory_Product
+	fromColumn: Inventory.SKU
+	toColumn: Product.SKU
+
+relationship Inventory_Location
+	fromColumn: Inventory.DCID
+	toColumn: Location.LocationID
+
+relationship AOP_Date
+	fromColumn: AOP.Date
+	toColumn: Date.Date
+
