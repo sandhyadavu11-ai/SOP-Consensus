@@ -41,7 +41,10 @@ Financial — including forecast bias/accuracy, capacity utilization, projected
 inventory and days of supply, gap-to-AOP, and revenue-at-risk (unconstrained
 demand vs. capacity-constrained supply, priced).
 
+<img width="852" height="666" alt="image" src="https://github.com/user-attachments/assets/e0ade871-106b-41ed-bd19-cee122c060fb" />
+
 <img width="1252" height="692" alt="image" src="https://github.com/user-attachments/assets/e7542fb3-292d-4e45-8222-d6cd940378fb" />
+
 <img width="1253" height="690" alt="image" src="https://github.com/user-attachments/assets/94a07609-8eb3-4d12-9f50-0bbbb6f04fda" />
 
 
