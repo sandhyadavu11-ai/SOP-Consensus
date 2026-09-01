@@ -54,3 +54,6 @@ The prototype deliberately scopes to a single line. The point isn't coverage —
 it's proving the consensus mechanism fast enough to earn the right to scale it.
 Every design choice (monthly grain, star schema, forecast-version columns,
 measure folders) extends directly to a full portfolio.
+
+
+
