@@ -5,6 +5,8 @@ product line, built to test a single claim: *when demand, capacity, inventory,
 and financial data sit in one model, decisions surface that nobody could see
 while the data lived in four separate spreadsheets.*
 
+<img width="1253" height="678" alt="image" src="https://github.com/user-attachments/assets/c0bb927e-9552-4ec9-bab8-fd2a7a1e7c84" />
+
 ## The story
 
 Vitala is a functional-beverage line: 8 SKUs, 2 bottling plants, 3 distribution
