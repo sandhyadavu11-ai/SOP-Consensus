@@ -5,8 +5,6 @@ product line, built to test a single claim: *when demand, capacity, inventory,
 and financial data sit in one model, decisions surface that nobody could see
 while the data lived in four separate spreadsheets.*
 
-<img width="1253" height="678" alt="image" src="https://github.com/user-attachments/assets/c0bb927e-9552-4ec9-bab8-fd2a7a1e7c84" />
-
 ## The story
 
 Vitala is a functional-beverage line: 8 SKUs, 2 bottling plants, 3 distribution
@@ -22,6 +20,8 @@ decisions appear that no single view could show:
 | 2 | Sales forecast carries a persistent **+10–11% bias** vs. actual shipments | Which number does supply plan against? Planning on the sales number ties up ~$2M in working capital; planning on stat risks shorting the promo |
 | 3 | Melon Hydrate (19% margin) sits at **130+ days of supply** while Citrus Boost (52% margin) fills only **~92%** of demand | Shift line time from legacy melon batches to the hero SKU — a pure margin-mix win invisible unless inventory, margin, and service sit side by side |
 | 4 | H2-2026 consensus revenue lands **−6% vs. AOP** | Surface the gap in May, not at year-end — and evaluate levers (promo, mix, price) with their capacity cost attached |
+
+<img width="1253" height="678" alt="image" src="https://github.com/user-attachments/assets/c0bb927e-9552-4ec9-bab8-fd2a7a1e7c84" />
 
 ## What's here
 
@@ -40,6 +40,10 @@ with ~20 DAX measures in four display folders — Demand, Supply, Inventory,
 Financial — including forecast bias/accuracy, capacity utilization, projected
 inventory and days of supply, gap-to-AOP, and revenue-at-risk (unconstrained
 demand vs. capacity-constrained supply, priced).
+
+<img width="1252" height="692" alt="image" src="https://github.com/user-attachments/assets/e7542fb3-292d-4e45-8222-d6cd940378fb" />
+<img width="1253" height="690" alt="image" src="https://github.com/user-attachments/assets/94a07609-8eb3-4d12-9f50-0bbbb6f04fda" />
+
 
 ## Rebuild from scratch
 
